@@ -15,14 +15,12 @@ def play():
         player = Player()
         room.place_player(player)
 
-    print(f'The room has a length of {room.room_length} and a width of {room.room_width}.')
-
     gamestate.room = room
+
+    print(f'The room has a length of {room.room_length} and a width of {room.room_width}.')
 
     command = ''
     steps = 0
-
-    play = True
 
     while (True):
         print(f'Type "r" to turn player right, "l" to turn player left, just hit ENTER to keep current direction, "q" to quit the game: ')
@@ -34,17 +32,20 @@ def play():
         elif command == 'l':
             player.turn_left()
         elif command == 'q':
-            play = False
-            gamestate.save_game_state()
+            if gamestate.save_game_state():
+                quit()
+            else:
+                print(f'Quit anyway (Y/N)?')
+                command = input().lower()
+
+                if command == 'y':
+                    quit()
         elif command == 'p':
             room.print()
         elif command == '':
             pass
         else:
             print(f'The player does only understand "r", "l", empty command and "q".')
-
-        if not play:
-            break
 
         steps = input('How many steps should the player go? ')
 
@@ -54,9 +55,10 @@ def play():
             print(f'Invalid input')
             steps = 0
 
-        if player.move(steps):
-            gamestate.save_game_state()
-            quit()
+        if not player.move(steps):
+            if gamestate.save_game_state():
+                quit()
+
 
 if __name__ == '__main__':
     play()

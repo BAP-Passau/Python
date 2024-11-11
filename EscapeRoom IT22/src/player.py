@@ -58,7 +58,7 @@ class Player(object):
         self.items.append(item)
 
     def move(self, steps):
-        game_over = False
+        proceed_game = True
 
         if self.current_direction == Direction.UP:
             self.position.y -= steps
@@ -66,7 +66,7 @@ class Player(object):
             if self.room.compare_door_positions(self.position) and self.room.get_door_at_position(
                     self.position).key in self.items:
                 print('Player has left the room through the door.')
-                game_over = True
+                proceed_game = False
             elif self.room.compare_door_positions(self.position) and not (
                     self.room.get_door_at_position(self.position).key in self.items):
                 print('Player has reached the door, but doesn\'t have the key.')
@@ -86,7 +86,7 @@ class Player(object):
             if self.room.compare_door_positions(self.position) and self.room.get_door_at_position(
                     self.position).key in self.items:
                 print('Player has left the room through the door.')
-                game_over = True
+                proceed_game = False
             elif self.room.compare_door_positions(self.position) and not (
                     self.room.get_door_at_position(self.position).key in  self.items):
                 print('Player has reached the door, but doesn\'t have the key.')
@@ -106,7 +106,7 @@ class Player(object):
             if self.room.compare_door_positions(self.position) and self.room.get_door_at_position(
                     self.position).key in self.items:
                 print('Player has left the room through the door.')
-                game_over = True
+                proceed_game = False
             elif self.room.compare_door_positions(self.position) and not (
                     self.room.get_door_at_position(self.position).key in self.items):
                 print('Player has reached the door, but doesn\'t have the key.')
@@ -125,7 +125,7 @@ class Player(object):
             if self.room.compare_door_positions(self.position) and self.room.get_door_at_position(
                     self.position).key in self.items:
                 print('Player has left the room through the door.')
-                game_over = True
+                proceed_game = False
             elif self.room.compare_door_positions(self.position) and not (
                     self.room.get_door_at_position(self.position).key in self.items):
                 print('Player has reached the door, but doesn\'t have the key.')
@@ -139,11 +139,11 @@ class Player(object):
             self.coin_radar()
             self.check_and_get_coins()
 
-        if not game_over:
+        if proceed_game:
             print(f'I\'m going {self.current_direction}.')
             print(f'My current position is x:{self.position.x} y:{self.position.y}.')
 
-        return game_over
+        return proceed_game
 
     def check_and_get_keys(self):
         for key in self.room.get_keys():

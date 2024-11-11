@@ -29,11 +29,19 @@ class GameState(object):
                 restored_game_state = pickle.loads(saved_game_state.read())
                 return True
             except Exception as e:
-                print('Invalid game state!')
-                quit()
+                print(f'Invalid game state!')
+                return False
 
     def save_game_state(self):
         with open('gamestate.bin', 'wb') as saved_game_state:
             game_state = self
 
-            saved_game_state.write(pickle.dumps(game_state))
+            try:
+                saved_game_state.write(pickle.dumps(game_state))
+                return True
+            except Exception as e:
+                print(f'Error saving game state!')
+                return False
+
+
+
